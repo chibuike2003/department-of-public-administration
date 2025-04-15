@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dept. of Public Admin & Local Govt - UNN</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .section-title {
+      font-weight: 600;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #003366;
+    }
+
+    .bg-unn {
+      background-color: #003366;
+      color: white;
+    }
+
+    .program-card {
+      border: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: 0.3s;
+    }
+
+    .program-card:hover {
+      transform: translateY(-5px);
+    }
+
+    footer {
+      background: #001f3f;
+      color: white;
+    }
+
+    .highlight {
+      color: #28a745;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar with Login & Signup -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4">
+    <a class="navbar-brand" href="#">UNN PALG</a>
+    <div class="ms-auto">
+      {% if user_id %}
+        <a href="{{ url_for('dashboard') }}"><button class="btn btn-warning">Return to Your Dashboard</button></a>
+      {% else %}
+        <a href="{{ url_for('login') }}"><button class="btn btn-outline-light me-2">Login</button></a>
+        <a href="{{ url_for('signup') }}"><button class="btn btn-success">Signup</button></a>
+      {% endif %}
+    </div>
+    
+    
+  </nav>
+
+  <!-- Hero Carousel -->
+  <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active" style="height: 100vh; background: url('../static/palg2.jpg') no-repeat center center / cover;">
+        <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
+          <img src="../static/logo.jpg" alt="UNN Logo" style="width: 80px; height: 80px;" class="mb-3">
+          <h1 class="text-white">Department of Public Administration & Local Government</h1>
+          <p class="lead text-light">University of Nigeria, Nsukka</p>
+          <a href="#about" class="btn btn-success mt-4 px-4 py-2">Learn More</a>
+        </div>
+      </div>
+      <div class="carousel-item" style="height: 100vh; background: url('../static/palg1.jpg') no-repeat center center / cover;">
+        <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
+          <h1 class="text-white">Building Future Leaders</h1>
+          <p class="lead text-light">Empowering minds through academic excellence.</p>
+          <a href="../static/#about" class="btn btn-light mt-4 px-4 py-2">Discover More</a>
+        </div>
+      </div>
+      <div class="carousel-item" style="height: 100vh; background: url('../static/palg3.jpg') no-repeat center center / cover;">
+        <div class="carousel-caption d-flex flex-column justify-content-center align-items-center h-100">
+          <h1 class="text-white">Join Our Academic Community</h1>
+          <p class="lead text-light">Explore innovative learning in public administration.</p>
+          <a href="#about" class="btn btn-success mt-4 px-4 py-2">Get Started</a>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <!-- About -->
+  <section id="about" class="py-5">
+    <div class="container text-center">
+      <h2 class="section-title">About the Department</h2>
+      <p>The Department of Public Administration and Local Government is committed to excellence...</p>
+      <div class="row text-start">
+        <div class="col-md-6">
+          <h5 class="highlight">Our Vision</h5>
+          <p>To be a leading center of excellence in public administration...</p>
+        </div>
+        <div class="col-md-6">
+          <h5 class="highlight">Our Mission</h5>
+          <p>To equip students with theoretical and practical knowledge...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programs -->
+  <section class="bg-light py-5">
+    <div class="container">
+      <h2 class="section-title text-center">Programmes Offered</h2>
+      <div class="row g-4 mt-4">
+        <div class="col-md-4">
+          <div class="card program-card p-3">
+            <h5>B.Sc. Public Administration</h5>
+            <p>Undergraduate training focused on governance and public sector management.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card program-card p-3">
+            <h5>M.Sc. Public Administration</h5>
+            <p>Advanced degree program for professional skills in public administration.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card program-card p-3">
+            <h5>Ph.D. Public Administration</h5>
+            <p>Doctoral program designed for researchers and public policy experts.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="bg-unn py-5 text-center">
+    <div class="container">
+      <h2 class="section-title text-white">Contact Us</h2>
+      <p>📍 Faculty of Social Sciences, University of Nigeria, Nsukka</p>
+      <p>📧 Email: <a href="mailto:palg@unn.edu.ng" class="text-light">palg@unn.edu.ng</a></p>
+      <p>📞 Phone: +234 803 123 4567</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-3">
+    <p>© 2025 Department of Public Administration & Local Government, UNN</p>
+  </footer>
+
+  <!-- Bootstrap Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

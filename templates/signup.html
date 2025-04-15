@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white shadow-2xl rounded-xl w-full max-w-xl p-8">
+    <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Create an Account</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="mb-4">
+          {% for category, message in messages %}
+            <div class="text-sm px-4 py-2 rounded text-white {{ 'bg-red-500' if category == 'danger' else 'bg-green-500' }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('signup') }}" method="POST" class="grid grid-cols-1 gap-4">
+      <div>
+        <label class="block text-gray-700">Full Name</label>
+        <input type="text" name="signupName" required class="w-full border rounded px-4 py-2 mt-1">
+      </div>
+      <div>
+        <label class="block text-gray-700">Email (Gmail only)</label>
+        <input type="email" name="signupEmail" required class="w-full border rounded px-4 py-2 mt-1">
+      </div>
+      <div>
+        <label class="block text-gray-700">Registration Number</label>
+        <input type="text" name="regno" required class="w-full border rounded px-4 py-2 mt-1">
+      </div>
+      <div>
+        <label class="block text-gray-700">Phone Number</label>
+        <input type="text" name="phone" required class="w-full border rounded px-4 py-2 mt-1">
+      </div>
+      <div>
+        <label class="block text-gray-700">Password</label>
+        <input type="password" name="signupPassword" required class="w-full border rounded px-4 py-2 mt-1">
+      </div>
+      <div>
+        <label class="block text-gray-700">Confirm Password</label>
+        <input type="password" name="confirmpassword" required class="w-full border rounded px-4 py-2 mt-1">
+      </div>
+      <button type="submit" class="w-full bg-green-600 text-white rounded px-4 py-2 hover:bg-green-700 transition duration-300">
+        Sign Up
+      </button>
+    </form>
+
+    <p class="text-sm text-gray-600 mt-6 text-center">Already have an account? 
+      <a href="{{ url_for('login') }}" class="text-blue-600 hover:underline">Login</a>
+    </p>
+  </div>
+</body>
+</html>

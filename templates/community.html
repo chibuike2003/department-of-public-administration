@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Community Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      background: #f0f2f5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .sidebar {
+      background: #fff;
+      height: 100vh;
+      border-right: 1px solid #dee2e6;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+    }
+    .sidebar .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #0069d9;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sidebar .logo img {
+      height: 40px;
+    }
+    .group-list {
+      margin-top: 2rem;
+    }
+    .group-item {
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      background: #f8f9fa;
+      transition: 0.2s;
+    }
+    .group-item:hover {
+      background: #e2e6ea;
+    }
+    .main-content {
+      padding: 2rem;
+    }
+    .chat-header {
+      border-bottom: 1px solid #dee2e6;
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .member-img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0.5rem;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+    .btn-create-group {
+      border-radius: 1.5rem;
+      font-weight: 500;
+    }
+    #messages {
+      height: 300px;
+      overflow-y: auto;
+      background: #fff;
+      border-radius: 10px;
+      padding: 1rem;
+      margin-top: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    #messages p {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Group chat styles */
+    .chat-card {
+      border: none;
+      border-radius: 1rem;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.05);
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, #198754, #0f5132);
+      color: white;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+    }
+
+    .chat-body {
+      height: 450px;
+      overflow-y: auto;
+      padding: 1rem;
+      background-color: white;
+    }
+
+    .chat-row {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+
+    .chat-row.self {
+      flex-direction: row-reverse;
+    }
+
+    .chat-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 10px;
+    }
+
+    .chat-message-box {
+      max-width: 75%;
+    }
+
+    .chat-username {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: #495057;
+    }
+
+    .chat-message {
+      background-color: #e9ecef;
+      border-radius: 1rem;
+      padding: 10px 15px;
+      word-wrap: break-word;
+    }
+
+    .chat-row.self .chat-message {
+      background-color: #d1e7dd;
+      text-align: right;
+    }
+
+    .chat-input {
+      border-top: 1px solid #dee2e6;
+      padding: 1rem;
+    }
+
+    .btn-send {
+      border-radius: 2rem;
+    }
+  </style>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3 sidebar">
+      <div class="logo">
+        <a href=""></a><img id="communityLogo" src="../static/csconnect.jpg" alt="Logo" />
+        <span>PALG UNN</span>
+      </div>
+
+      <input type="file" id="logoUpload" accept="image/*" class="form-control my-3" onchange="previewLogo(event)" />
+
+      <button class="btn btn-primary w-100 mt-4 btn-create-group" data-bs-toggle="modal" data-bs-target="#createGroupModal" id="createGroupModal">
+        ➕ Create Group
+      </button>
+      <a href="">ADD MEMBERS</a>
+
+      <div class="group-list">
+        <h6 class="text-muted mt-4">Your Groups</h6>
+        <div class="group-item" onclick="selectGroup('Study Buddies')">📚 Study Buddies</div>
+        <div class="group-item" onclick="selectGroup('Dev Circle')">💻 Dev Circle</div>
+        <div class="group-item" onclick="selectGroup('Design Hive')">🎨 Design Hive</div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-md-9 main-content">
+
+    <h3>COMMUNITY NAME</h3>
+      <h6 class="mt-4">👥 Members</h6>
+      <div class="d-flex flex-wrap">
+        <span style="background-color: green;color: whitesmoke;">
+<p>admins</p>
+        <p>{{ user.fullname }} {{ user.fullname }} {{ user.fullname }} {{ user.fullname }}</p>
+        <img src="../static/palg3.jpg" class="member-img" placeholder="ade">
+      </span>
+        <p>{{ user.fullname }}</p>
+
+        <img src="../static/logo.jpg" class="member-img" />
+        <p>{{ user.fullname }}</p>
+
+        <img src="../static/palg3.jpg" class="member-img" />
+        <p>{{ user.fullname }}</p>
+
+        <img src="../static/csconnect.jpg" class="member-img" />
+      </div>
+
+      <!-- Group Chat Section -->
+      <div class="card chat-card mt-4">
+        <div class="card-header chat-header d-flex justify-content-between align-items-center">
+            <h4 id="groupNameTitle">📚 Study Buddies</h4>
+            <div>
+              <button onclick="alert('Do you want to call the group?')" class="btn btn-outline-light btn-sm me-2" title="Video Call">
+                📹
+              </button>
+              <button onclick="alert('Do you want to call the group?')" class="btn btn-outline-light btn-sm" title="Audio Call">
+                🎧
+              </button>
+            </div>
+          </div>
+          
+        <div class="card-body chat-body d-flex flex-column" id="chat-box">
+          <!-- Sample messages -->
+          <div class="chat-row">
+            <img src="../static/csconnect.jpg" alt="Alice" class="chat-avatar">
+            <div class="chat-message-box">
+              <div class="chat-username">Alice</div>
+              <div class="chat-message">Hey everyone! Has anyone started the group project yet?</div>
+            </div>
+          </div>
+
+          <div class="chat-row">
+            <img src="../static/palg3.jpg" alt="Bob" class="chat-avatar">
+            <div class="chat-message-box">
+              <div class="chat-username">Bob</div>
+              <div class="chat-message">Not yet, but I’m available this weekend to discuss it.</div>
+            </div>
+          </div>
+        </div>
+        <div class="chat-input">
+            <form class="d-flex align-items-center" onsubmit="sendGroupMessage(event)" enctype="multipart/form-data">
+              <input type="text" id="messageInput" class="form-control me-2" placeholder="Type your message...">
+              
+              <!-- File input -->
+              <input type="file" id="fileInput" class="form-control me-2" multiple 
+                     accept="*/*" style="display: none;" onchange="previewFiles(event)">
+              
+              <!-- Label as a button for file input -->
+              <label for="fileInput" class="btn btn-secondary me-2">
+                📎 Attach
+              </label>
+          
+              <button type="submit" class="btn btn-success btn-send">Send</button>
+            </form>
+          
+            <!-- Optional preview area for selected files -->
+            <div id="filePreview" class="mt-2"></div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal to Create Group -->
+<div class="modal fade" id="createGroupModal" tabindex="-1" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form>
+        <div class="modal-header">
+          <h5 class="modal-title" id="createGroupModalLabel">Create New Group</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="groupName" class="form-label">Group Name</label>
+            <input type="text" class="form-control" id="groupName" placeholder="Enter group name" required />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Create Group</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function previewLogo(event) {
+    const logo = document.getElementById("communityLogo");
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      logo.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function selectGroup(groupName) {
+    document.getElementById("groupNameTitle").textContent = `📚 ${groupName}`;
+    // Optionally, you can load the corresponding chat history here
+  }
+
+  function sendGroupMessage(event) {
+    event.preventDefault();
+    const messageInput = document.getElementById("messageInput");
+    const chatBox = document.getElementById("chat-box");
+
+    const newMessage = document.createElement("div");
+    newMessage.classList.add("chat-row", "self");
+    newMessage.innerHTML = `
+      <div class="chat-message-box">
+        <div class="chat-username">You</div>
+        <div class="chat-message">${messageInput.value}</div>
+      </div>
+    `;
+    chatBox.appendChild(newMessage);
+    messageInput.value = "";
+    chatBox.scrollTop = chatBox.scrollHeight;  // Scroll to bottom
+  }
+  function previewFiles(event) {
+  const preview = document.getElementById('filePreview');
+  preview.innerHTML = ''; // Clear existing preview
+
+  const files = event.target.files;
+  for (let file of files) {
+    const p = document.createElement('p');
+    p.textContent = `Selected: ${file.name}`;
+    preview.appendChild(p);
+  }
+}
+
+function sendGroupMessage(event) {
+  event.preventDefault();
+
+  const message = document.getElementById('messageInput').value;
+  const fileInput = document.getElementById('fileInput');
+  const files = fileInput.files;
+
+  const formData = new FormData();
+  formData.append('message', message);
+
+  for (let file of files) {
+    formData.append('files[]', file);
+  }
+
+  // Send via fetch or AJAX
+  fetch('/send-message', {
+    method: 'POST',
+    body: formData
+  }).then(response => {
+    // Handle response
+    console.log('Message sent');
+    document.getElementById('messageInput').value = '';
+    fileInput.value = '';
+    document.getElementById('filePreview').innerHTML = '';
+  }).catch(err => console.error('Error:', err));
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Showcase Wall</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f5f8fa;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: #2c3e50;
+    }
+
+    .masonry-wall {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .showcase-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+      padding: 1rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .showcase-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.1);
+    }
+
+    .showcase-card video {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-bottom: 0.8rem;
+    }
+
+    .showcase-card h4 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #34495e;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .masonry-wall {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h2>🎯 Showcase Wall</h2>
+
+  <div class="masonry-wall">
+    <div class="showcase-card">
+      <video src="/featured.mp4" controls></video>
+      <h4>Project of the Month 🏆</h4>
+    </div>
+
+    <div class="showcase-card">
+      <video src="/climate-research.mp4" controls></video>
+      <h4>Climate Change Visualizer 🌍</h4>
+    </div>
+
+    <div class="showcase-card">
+      <video src="/ai-edu.mp4" controls></video>
+      <h4>AI in Education 🎓</h4>
+    </div>
+
+    <div class="showcase-card">
+      <video src="/space-tour.mp4" controls></video>
+      <h4>Virtual Space Tour 🚀</h4>
+    </div>
+  </div>
+
+</body>
+</html>

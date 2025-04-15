@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 30px;
+        }
+        .upload-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .upload-container h2 {
+            margin-bottom: 20px;
+            color: #4B4F63;
+        }
+        .upload-container input, .upload-container textarea, .upload-container button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .upload-container button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .upload-container .drag-zone {
+            padding: 30px;
+            border: 2px dashed #4CAF50;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .upload-container .progress-bar {
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            overflow: hidden;
+            height: 15px;
+        }
+        .upload-container .progress-bar .progress {
+            height: 100%;
+            background-color: #4CAF50;
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="upload-container">
+        <h2>Upload New Project</h2>
+        <input type="text" placeholder="Project Title"><br>
+        <textarea placeholder="Project Description" rows="4"></textarea><br>
+        <input type="text" placeholder="Authors"><br>
+      
+        <div class="drag-zone" >
+          <input type="file" placeholder="Drag & Drop PDF, ZIP, or MP4 file here"> Drag & Drop PDF, ZIP, or MP4 file here 
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        <input type="text" placeholder="Tags"><br>
+        <input type="radio"> Innovative Project
+        <input type="radio"> Final Year Project
+
+        <button>Upload Project</button>
+    </div>
+</body>
+</html>

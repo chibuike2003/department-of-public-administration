@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: #f8f9fa;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .dashboard-header {
+      background-color: #0d6efd;
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      margin-bottom: 40px;
+    }
+
+    .dashboard-header h1 {
+      font-weight: bold;
+    }
+
+    .modal-table th {
+      background-color: #0d6efd;
+      color: white;
+    }
+
+    .card-style {
+      transition: transform 0.2s ease;
+      cursor: pointer;
+    }
+
+    .card-style:hover {
+      transform: scale(1.02);
+    }
+
+    .modal-content {
+      border-radius: 15px;
+    }
+
+    .modal-header {
+      background-color: #0d6efd;
+      color: white;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+    }
+
+    .table-striped > tbody > tr:nth-of-type(odd) {
+      background-color: #f2f7ff;
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-header">
+  <h1>📊 Admin Dashboard</h1>
+  <p class="lead">Manage candidates, users, and results efficiently</p>
+</div>
+
+<div class="container">
+  <div class="row text-center g-4">
+
+    <!-- Modal Trigger Cards -->
+    <div class="col-md-4">
+      <div class="card card-style shadow-sm p-4" data-bs-toggle="modal" data-bs-target="#modalOne">
+        <h5 class="text-primary fw-bold">Users On The Platform</h5>
+        <p class="text-muted">List of all registered Users</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card card-style shadow-sm p-4" data-bs-toggle="modal" data-bs-target="#modalTwo">
+        <h5 class="text-primary fw-bold">People That Voted</h5>
+        <p class="text-muted">Voters that Exercised Their Franchise</p>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card card-style shadow-sm p-4" data-bs-toggle="modal" data-bs-target="#modalThree">
+        <h5 class="text-primary fw-bold">People That Have Paid Departmental Dues Results</h5>
+        <p class="text-muted">Departmental Dues History</p>
+      </div>
+    </div>
+  </div>
+</div>
+ <!-- Modal 3: Dues Payers -->
+<div class="modal fade" id="modalThree" tabindex="-1" aria-labelledby="modalThreeLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalThreeLabel">💰 Departmental Dues Payers</h5>
+          <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped modal-table">
+            <thead>
+              <tr>
+                <th>Full Name</th>
+                <th>Reg No</th>
+                <th>Sessions Paid</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in dues_payers %}
+                {% for record in user.adminadddues %}
+                <tr>
+                  <td>{{ user.fullname }}</td>
+                  <td>{{ record.regno }}</td>
+                  <td>{{ record.sessions_paid }}</td>
+                  <td>{{ record.date_filled.strftime("%Y-%m-%d") }}</td>
+                </tr>
+                {% endfor %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Modal 1: Registered Users -->
+<div class="modal fade" id="modalOne" tabindex="-1" aria-labelledby="modalOneLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalOneLabel">🧑‍💼 Registered Users</h5>
+          <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped modal-table">
+            <thead>
+              <tr>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Reg No</th>
+                <th>Phone</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in users %}
+                <tr>
+                  <td>{{ user.fullname }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.regno }}</td>
+                  <td>{{ user.phone }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<!-- Modal 2: Voters -->
+<div class="modal fade" id="modalTwo" tabindex="-1" aria-labelledby="modalTwoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalTwoLabel">🗳️ Voters</h5>
+          <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped modal-table">
+            <thead>
+              <tr>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Reg No</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for voter in voters %}
+                <tr>
+                  <td>{{ voter.fullname }}</td>
+                  <td>{{ voter.email }}</td>
+                  <td>{{ voter.regno }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal 3: Dues Payers -->
+<div class="modal fade" id="modalThree" tabindex="-1" aria-labelledby="modalThreeLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalThreeLabel">💰 Departmental Dues Payers</h5>
+          <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped modal-table">
+            <thead>
+              <tr>
+                <th>Full Name</th>
+                <th>Reg No</th>
+                <th>Sessions Paid</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in dues_payers %}
+                {% for record in user.adminadddues %}
+                <tr>
+                  <td>{{ user.fullname }}</td>
+                  <td>{{ record.regno }}</td>
+                  <td>{{ record.sessions_paid }}</td>
+                  <td>{{ record.date_filled.strftime("%Y-%m-%d") }}</td>
+                </tr>
+                {% endfor %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
