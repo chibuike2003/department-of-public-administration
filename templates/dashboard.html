@@ -141,76 +141,114 @@
         </div>
       </div>
     </div>
+
+    <!-- Purchase Departmental Handbooks And Pay Departmental Dues -->
     <div class="col-md-4">
-        <div class="card dashboard-card p-4">
-          <div class="card-body text-center">
-            <div class="card-icon text-primary"><i class="bi bi-people-fill"></i></div>
-            <h5 class="card-title mt-3">Purchase Departmental Handbooks And Pay Departmental Dues</h5>
-            <p>Manage your handbooks & dues.</p>
-            <a href="{{ url_for('payments') }}" class="btn btn-outline-primary btn-sm">Manage Users</a>
-          </div>
+      <div class="card dashboard-card p-4">
+        <div class="card-body text-center">
+          <div class="card-icon text-primary"><i class="bi bi-people-fill"></i></div>
+          <h5 class="card-title mt-3">Purchase Departmental Handbooks & Pay Dues</h5>
+          <p>Manage your handbooks & dues.</p>
+          <a href="{{ url_for('payments') }}" class="btn btn-outline-primary btn-sm">Manage Payments</a>
         </div>
       </div>
-  
-      <!-- Messages & Notifications -->
-      <div class="col-md-4">
-        <div class="card dashboard-card p-4">
-          <div class="card-body text-center">
-            <div class="card-icon text-info"><i class="bi bi-envelope-fill"></i></div>
-            <h5 class="card-title mt-3">Messages & Alerts</h5>
-            <p>View system notifications, student queries, and updates.</p>
-            <a href="{{ url_for('messages') }}" class="btn btn-outline-info btn-sm">View Messages</a>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Bug Reports -->
-      <div class="col-md-4">
-        <div class="card dashboard-card p-4">
-          <div class="card-body text-center">
-            <div class="card-icon text-danger"><i class="bi bi-bug-fill"></i></div>
-            <h5 class="card-title mt-3">Vote </h5>
-            <p>During Departmental Election.</p>
-            <a href="{{ url_for('vote') }}" class="btn btn-outline-danger btn-sm">View Issues</a>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Settings -->
-      <div class="col-md-6">
-        <div class="card dashboard-card p-4">
-          <div class="card-body text-center">
-            <div class="card-icon text-secondary"><i class="bi bi-gear-fill"></i></div>
-            <h5 class="card-title mt-3">Settings</h5>
-            <p>Manage platform settings, roles, and preferences.</p>
-            <a href="{{ url_for('settings') }}" class="btn btn-outline-secondary btn-sm">Configure</a>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Chat Widget -->
-      <div class="col-md-6">
-        <div class="card dashboard-card p-4">
-          <div class="card-body text-center">
-            <div class="card-icon text-success"><i class="bi bi-chat-dots-fill"></i></div>
-            <h5 class="card-title mt-3">Live Chat</h5>
-            <p>Chat with collaborators or faculty in real-time.</p>
-            <a href="{{ url_for('friendrequest') }}" class="btn btn-outline-success btn-sm">Open Chat</a>
-          </div>
-        </div>
-      </div>
-  
     </div>
-  </div>
-  </div>
   
+    <!-- Messages & Notifications -->
+    <div class="col-md-4">
+      <div class="card dashboard-card p-4">
+        <div class="card-body text-center">
+          <div class="card-icon text-info"><i class="bi bi-envelope-fill"></i></div>
+          <h5 class="card-title mt-3">Messages & Alerts</h5>
+          <p>View system notifications, student queries, and updates.</p>
+          <a href="{{ url_for('messages') }}" class="btn btn-outline-info btn-sm">View Messages</a>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Vote During Departmental Election -->
+    <div class="col-md-4">
+      <div class="card dashboard-card p-4">
+        <div class="card-body text-center">
+          <div class="card-icon text-danger"><i class="bi bi-bug-fill"></i></div>
+          <h5 class="card-title mt-3">Vote in Election</h5>
+          <p>Participate in the departmental election.</p>
+          <a href="{{ url_for('vote') }}" class="btn btn-outline-danger btn-sm">Vote Now</a>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Settings -->
+    <div class="col-md-6">
+      <div class="card dashboard-card p-4">
+        <div class="card-body text-center">
+          <div class="card-icon text-secondary"><i class="bi bi-gear-fill"></i></div>
+          <h5 class="card-title mt-3">Settings</h5>
+          <p>Manage platform settings, roles, and preferences.</p>
+          <a href="{{ url_for('settings') }}" class="btn btn-outline-secondary btn-sm">Configure</a>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Chat Widget -->
+    <div class="col-md-6">
+      <div class="card dashboard-card p-4">
+        <div class="card-body text-center">
+          <div class="card-icon text-success"><i class="bi bi-chat-dots-fill"></i></div>
+          <h5 class="card-title mt-3">Live Chat</h5>
+          <p>Chat with collaborators or faculty in real-time.</p>
+          <a href="{{ url_for('friendrequest') }}" class="btn btn-outline-success btn-sm">Open Chat</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Custom Container 1 -->
+    <div class="col-md-4">
+      <div class="card dashboard-card p-4">
+        <div class="card-body text-center">
+          <div class="card-icon text-primary"><i class="bi bi-star"></i></div>
+          <h5 class="card-title mt-3">Check Results</h5>
+          <p>Description for widget 1.</p>
+          <a href="#" class="btn btn-outline-primary btn-sm">Action 1</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Custom Container 2 -->
+    <div class="col-md-4">
+      <div class="card dashboard-card p-4">
+        <div class="card-body text-center">
+          <div class="card-icon text-warning"><i class="bi bi-bell"></i></div>
+          <h5 class="card-title mt-3">Custom Widget 2</h5>
+          <p>Description for widget 2.</p>
+          <a href="#" class="btn btn-outline-warning btn-sm">Action 2</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Custom Container 3 -->
+    <div class="col-md-4">
+      <div class="card dashboard-card p-4">
+        <div class="card-body text-center">
+          <div class="card-icon text-success"><i class="bi bi-bar-chart"></i></div>
+          <h5 class="card-title mt-3">Custom Widget 3</h5>
+          <p>Description for widget 3.</p>
+          <a href="#" class="btn btn-outline-success btn-sm">Action 3</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
+
+<a href="#">Back To Top</a>
 
 <!-- Footer -->
 <footer class="text-center mt-5 pt-4 pb-2 border-top">
     <p class="mb-0">&copy; 2025 DEPARTMENT OF PUBLIC ADMINISTRATION AND LOCAL GOVERNMENT. All rights reserved.</p>
     <small>UNIVERSITY OF NIGERIA, NSUKKA.</small>
-  </footer>
+</footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -235,10 +273,9 @@
     }
   });
   function logout(){
-    alert ="are you sure you want to log out"
+    alert = "are you sure you want to log out";
   }
 </script>
 
 </body>
 </html>
-

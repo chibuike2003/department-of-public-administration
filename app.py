@@ -3,6 +3,21 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from datetime import datetime
 
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import current_user,LoginManager
+
+# Initialize the Flask application
+app = Flask(__name__)
+
+# Configure the app (make sure you've set a secret key for sessions)
+app.config['SECRET_KEY'] = 'fdtygt5e5re4ere43rt435erdrs34e56fdrde3w221234567ytgytuih8uijhu87y6fvb  '
+
+# Initialize the LoginManager
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+# Optionally, specify the login view
+login_manager.login_view = 'login'  # Redirect to 'login' view if not logged in
+
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 
@@ -10,9 +25,12 @@ import smtplib
 from email.message import EmailMessage
 
 app = Flask(__name__)
-app.secret_key = 'hvfgvgyv67g8ihjgfyyuh8yyghi98y7tf6ygugbu'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///palg.db'  # Use MySQL if needed
+app.secret_key = 'hvfgvgyv67g8i6555436789765434576fgxfsx65756545erdf5554r676879t65re4d4d4hjgfyyuh8yyghi98y7tf6ygugbu'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///department.db'  # Use MySQL if needed
+app.config['UPLOAD_FOLDER'] = 'path/to/your/static/uploads'
+
 db = SQLAlchemy(app)
+
 
 # -----------------
 # Database Model
@@ -63,11 +81,40 @@ class ElectoralCandidate(db.Model):
     position = db.Column(db.String(50), nullable=False)
     profile_pic = db.Column(db.String(200), nullable=False)  # path to image
 
+class FriendRequest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    status = db.Column(db.String(20), default='pending')  # <--- ADD THIS LINE
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_requests')
+    receiver = db.relationship('User', foreign_keys=[receiver_id], backref='received_requests')
+class Friendship(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user1_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user2_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+class Community(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)  # Change 'community_name' to 'name'
+    description = db.Column(db.Text, nullable=False)
+    profile_picture = db.Column(db.String(150), nullable=False)
+    admin_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    admin = db.relationship('User', backref='communities')
+
 # -----------------
 #home
 @app.route('/home', methods=['GET', 'POST'])
 def index():
-        return render_template('index.html', user_id=session.get('user_id'))
+        return render_template('index.html',)
 
 
 
@@ -154,7 +201,7 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/user_dashboard')
+@app.route('/dashboard')
 def dashboard():
     if 'user_id' not in session:
         flash('Please log in first.', 'danger')
@@ -174,24 +221,123 @@ def settings():
     user = User.query.get(session['user_id'])
     return render_template('settings.html', user=user)
 
-
 @app.route('/friendrequest', methods=['GET', 'POST'])
 def friendrequest():
     if 'user_id' not in session:
         flash('Please log in to access settings.', 'danger')
         return redirect(url_for('login'))
-    
+
     user = User.query.get(session['user_id'])
-    return render_template('friendrequest.html', user=user)
+
+    if request.method == 'POST':
+        action = request.form.get('action')
+        receiver_id = request.form.get('receiver_id')
+
+        if action == 'send':
+            # Check if request already exists
+            existing_request = FriendRequest.query.filter_by(sender_id=user.id, receiver_id=receiver_id).first()
+            if not existing_request:
+                new_request = FriendRequest(sender_id=user.id, receiver_id=receiver_id, status='pending')
+                db.session.add(new_request)
+                db.session.commit()
+                flash('Friend request sent successfully!', 'success')
+        elif action == 'cancel':
+            existing_request = FriendRequest.query.filter_by(sender_id=user.id, receiver_id=receiver_id).first()
+            if existing_request:
+                db.session.delete(existing_request)
+                db.session.commit()
+                flash('Friend request canceled.', 'info')
+
+        return redirect(url_for('friendrequest'))
+
+    # Get all users except current user
+    all_users = User.query.filter(User.id != user.id).all()
+
+    # IDs of users I already sent friend request to (pending)
+    sent_requests = FriendRequest.query.filter_by(sender_id=user.id, status='pending').all()
+    sent_request_ids = [req.receiver_id for req in sent_requests]
+
+    # IDs of users I am already friends with (both accepted)
+    my_friends = Friendship.query.filter(
+        (Friendship.user1_id == user.id) | (Friendship.user2_id == user.id)
+    ).all()
+    friends_ids = []
+    for f in my_friends:
+        if f.user1_id == user.id:
+            friends_ids.append(f.user2_id)
+        else:
+            friends_ids.append(f.user1_id)
+
+    return render_template('friendrequest.html', 
+                           user=user, 
+                           all_users=all_users, 
+                           sent_request_ids=sent_request_ids, 
+                           friends_ids=friends_ids)
 
 @app.route('/community', methods=['GET', 'POST'])
-def community():
-    if 'user_id' not in session:
-        flash('Please log in to access settings.', 'danger')
-        return redirect(url_for('login'))
+
+@app.route('/view_friends')
+def view_friends():
+    user_id = session.get('user_id')
     
-    user = User.query.get(session['user_id'])
-    return render_template('community.html', user=user)
+    # Fetch accepted friends for the user
+    friendships = Friendship.query.filter(
+        (Friendship.user1_id == user_id) | (Friendship.user2_id == user_id)
+    ).all()
+    
+    friends = []
+    for friendship in friendships:
+        if friendship.user1_id == user_id:
+            friend = User.query.get(friendship.user2_id)
+        else:
+            friend = User.query.get(friendship.user1_id)
+        if friend:
+            friends.append(friend)
+    communities = Community.query.all()
+
+    return render_template('view_friends.html', friends=friends,communitties=communities)
+
+# Allowed file extensions
+ALLOWED_EXTENSIONS = {'jpg', 'jpeg', 'png'}
+
+# Function to check allowed file extensions
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route('/create_community', methods=['GET', 'POST'])
+def create_community():
+    if request.method == 'POST':
+        community_name = request.form['community_name']
+        description = request.form['description']
+        profile_picture = request.files['profile_picture']  # this is a FileStorage object
+
+        if profile_picture:
+            filename = secure_filename(profile_picture.filename)
+            filepath = os.path.join('static/uploads', filename)  # choose your upload folder
+            profile_picture.save(filepath)  # save the file
+
+            # Now save only the filename (or filepath) to the database
+            new_community = Community(
+                name=community_name,
+                description=description,
+                profile_picture=filename,  # or 'filepath' if you want full path
+                admin_id=session['user_id'],
+                created_at=datetime.now()
+            )
+            db.session.add(new_community)
+            db.session.commit()
+
+            flash('Community created successfully!', 'success')
+            return redirect(url_for('community_page'))
+
+    return render_template('createcommunity.html')
+
+@app.route('/community.html')
+def community_page():
+    communities = Community.query.all()
+    return render_template('communities.html', communities=communities)
+
 
 
 @app.route('/chatwithfriends', methods=['GET', 'POST'])
@@ -201,7 +347,34 @@ def privatechat():
         return redirect(url_for('login'))
     
     user = User.query.get(session['user_id'])
-    return render_template('chat.html', user=user)
+    friend_id = request.args.get('friend_id')  # 👈 Get the friend ID from the URL
+
+    if not friend_id:
+        flash('No friend selected to chat with.', 'warning')
+        return redirect(url_for('friendrequest'))
+    
+    friend = User.query.get(friend_id)
+
+    if not friend:
+        flash('Friend not found.', 'danger')
+        return redirect(url_for('friendrequest'))
+
+    return render_template('chat.html', user=user, friend=friend)
+
+
+
+
+@app.route('/block-user', methods=['POST'])
+def block_user():
+    user_id = request.json['userId']
+    # Code to block the user goes here
+    return jsonify({'success': True})
+
+@app.route('/unblock-user', methods=['POST'])
+def unblock_user():
+    user_id = request.json['userId']
+    # Code to unblock the user goes here
+    return jsonify({'success': True})
 
 
 @app.route('/payments', methods=['GET', 'POST'])
@@ -214,14 +387,64 @@ def payments():
     return render_template('payment.html', user=user)
 
 
-@app.route('/messages', methods=['GET', 'POST'])
+
+@app.route('/messages')
 def messages():
     if 'user_id' not in session:
-        flash('Please log in to access settings.', 'danger')
+        flash('Please log in to view messages.', 'danger')
         return redirect(url_for('login'))
-    
+
     user = User.query.get(session['user_id'])
-    return render_template('messages.html', user=user)
+
+    # Get friend requests sent to this user (pending)
+    incoming_requests = FriendRequest.query.filter_by(receiver_id=user.id, status='pending').all()
+
+    return render_template('messages.html', user=user, incoming_requests=incoming_requests)
+
+@app.route('/accept_friend_request/<int:request_id>', methods=['POST'])
+def accept_friend_request(request_id):
+    """Accept an incoming friend request."""
+    friend_request = FriendRequest.query.get_or_404(request_id)
+
+    # Use session to get the user ID instead of current_user
+    user_id = session.get('user_id')
+
+    if user_id and friend_request.receiver_id == user_id:
+        # Create a new friendship
+        new_friendship = Friendship(
+            user1_id=friend_request.sender_id,
+            user2_id=friend_request.receiver_id
+        )
+        db.session.add(new_friendship)
+
+        # Update the friend request status
+        friend_request.status = 'accepted'
+        db.session.commit()
+
+        flash('Friend request accepted!', 'success')
+    else:
+        flash('You cannot accept this request.', 'danger')
+
+    return redirect(url_for('messages'))
+
+@app.route('/decline_friend_request/<int:request_id>', methods=['POST'])
+def decline_friend_request(request_id):
+    """Decline an incoming friend request."""
+    friend_request = FriendRequest.query.get_or_404(request_id)
+
+    # Use session to get the user ID instead of current_user
+    user_id = session.get('user_id')
+
+    if user_id and friend_request.receiver_id == user_id:
+        # Update the friend request status to declined
+        friend_request.status = 'declined'
+        db.session.commit()
+
+        flash('Friend request declined.', 'info')
+    else:
+        flash('You cannot decline this request.', 'danger')
+
+    return redirect(url_for('messages'))
 
 
 @app.route('/admin-dashboard')
