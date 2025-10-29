@@ -105,35 +105,51 @@
                     <h5><i class="fas fa-user fa-icon"></i>Profile Settings</h5>
                 </div>
                 <div class="card-body">
-                    <form>
-                        <a href="{{ url_for('logout') }}" class="text-red-600 hover:underline" class="btn btn-danger">Logout</a>
-
-                        <div class="mb-3">
-                            <label for="fullName" class="form-label">Full Name</label>
-                            <input type="text" class="form-control" id="fullName" value="{{ user.fullname }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
-                            <input type="email" class="form-control" id="email" value="{{ user.email }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="test" class="form-label">Registration Number</label>
-                                    <p>
-                                        {{ user.regno }}
-                                    </p>                      
-                          </div>
-                          <div class="mb-3">
-                            <label for="phone" class="form-label">Phone Number</label>
-                            <input type="test" class="form-control" id="phone" value="{{ user.phone }}">
-                        </div>
-                        <div class="mb-3">
-                            <label for="profilePicture" class="form-label">Profile Picture</label>
-                            <input type="file" class="form-control" id="profilePicture">
-                        </div>
-                        <button type="submit" class="btn btn-success btn-custom">Save Changes</button>
-                    </form>
+                   
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+        
+                <div class="text-center mb-4">
+                    <img src="{{ url_for('static', filename='profile_pics/' + user.profile_picture_url) }}" alt="Profile Picture" class="profile-pic-preview">
                 </div>
-            </div>
+        
+        
+                <form method="POST" action="{{ url_for('update_profile') }}" enctype="multipart/form-data">
+                    <a href="{{ url_for('logout') }}" class="text-danger hover:underline">Logout</a>
+        
+                    <div class="mb-3">
+                        <label for="fullName" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="fullName" name="fullName" value="{{ user.fullname }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="regNo" class="form-label">Registration Number</label>
+                        <p class="form-control-plaintext">{{ user.regno }}</p> <input type="hidden" name="regNo" value="{{ user.regno }}"> </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" id="phone" name="phone" value="{{ user.phone }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="profilePicture" class="form-label">Upload New Profile Picture</label>
+                        <input type="file" class="form-control" id="profilePicture" name="profilePicture" accept="image/*">
+                        <small class="form-text text-muted">Max file size: 5MB. Allowed formats: JPG, JPEG, PNG, GIF.</small>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-custom">Save Changes</button>
+                </form>
+               
+    </div>
+</div>
 
             <!-- Notification Preferences Section -->
             <div class="card mb-4">

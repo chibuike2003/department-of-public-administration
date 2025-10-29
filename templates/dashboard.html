@@ -47,8 +47,8 @@
         <div class="card-body text-center">
           <div class="card-icon text-primary"><i class="bi bi-cloud-upload"></i></div>
           <h5 class="card-title mt-3">Project Uploads</h5>
-          <p>Upload research papers, codebases, demo videos.</p>
-          <a href="upload.html" class="btn btn-outline-primary btn-sm">Manage Uploads</a>
+          <p>Having Any Innovativae Idea?</p>
+          <a href="{{ url_for('upload_project') }}" class="btn btn-outline-primary btn-sm">Manage Uploads</a>
         </div>
       </div>
     </div>
@@ -60,7 +60,7 @@
           <div class="card-icon text-success"><i class="bi bi-funnel"></i></div>
           <h5 class="card-title mt-3">Tag & Search</h5>
           <p>Browse projects by tags, year, author, or type.</p>
-          <a href="tag.html" class="btn btn-outline-success btn-sm">Search Projects</a>
+          <a href="{{ url_for('browse_projects') }}" class="btn btn-outline-success btn-sm">Search Projects</a>
         </div>
       </div>
     </div>
@@ -72,7 +72,7 @@
           <div class="card-icon text-warning"><i class="bi bi-git"></i></div>
           <h5 class="card-title mt-3">Fork & Collaborate</h5>
           <p>Fork existing projects and build collaboratively.</p>
-          <a href="fork.html" class="btn btn-outline-warning btn-sm">View Forked Work</a>
+          <a href="{{ url_for('fork_collaborate_page') }}" class="btn btn-outline-warning btn-sm">View Forked Work</a>
         </div>
       </div>
     </div>
@@ -84,7 +84,7 @@
           <div class="card-icon text-danger"><i class="bi bi-star-half"></i></div>
           <h5 class="card-title mt-3">Rating & Feedback</h5>
           <p>Upvotes, reviews, and peer evaluation system.</p>
-          <a href="rating.html" class="btn btn-outline-danger btn-sm">See Ratings</a>
+          <a href="{{ url_for('rating_page') }}" class="btn btn-outline-danger btn-sm">See Ratings</a>
         </div>
       </div>
     </div>
@@ -94,9 +94,9 @@
       <div class="card dashboard-card p-4">
         <div class="card-body text-center">
           <div class="card-icon text-dark"><i class="bi bi-person-badge"></i></div>
-          <h5 class="card-title mt-3">Faculty Portal</h5>
+          <h5 class="card-title mt-3">School Portal</h5>
           <p>Highlight top research, publish faculty papers.</p>
-          <a href="faculty.html" class="btn btn-outline-dark btn-sm">Faculty Access</a>
+          <a href="{{ url_for('unn_portal') }}" class="btn btn-outline-dark btn-sm">Faculty Access</a>
         </div>
       </div>
     </div>
@@ -209,7 +209,7 @@
           <div class="card-icon text-primary"><i class="bi bi-star"></i></div>
           <h5 class="card-title mt-3">Check Results</h5>
           <p>Description for widget 1.</p>
-          <a href="#" class="btn btn-outline-primary btn-sm">Action 1</a>
+          <a href="{{ url_for('student_view_results') }}" class="btn btn-outline-primary btn-sm">Action 1</a>
         </div>
       </div>
     </div>
@@ -219,9 +219,9 @@
       <div class="card dashboard-card p-4">
         <div class="card-body text-center">
           <div class="card-icon text-warning"><i class="bi bi-bell"></i></div>
-          <h5 class="card-title mt-3">Custom Widget 2</h5>
+          <h5 class="card-title mt-3">Create Blog</h5>
           <p>Description for widget 2.</p>
-          <a href="#" class="btn btn-outline-warning btn-sm">Action 2</a>
+          <a href="{{ url_for('create_blog_post_page') }}" class="btn btn-outline-warning btn-sm">Action 2</a>
         </div>
       </div>
     </div>
@@ -231,9 +231,9 @@
       <div class="card dashboard-card p-4">
         <div class="card-body text-center">
           <div class="card-icon text-success"><i class="bi bi-bar-chart"></i></div>
-          <h5 class="card-title mt-3">Custom Widget 3</h5>
-          <p>Description for widget 3.</p>
-          <a href="#" class="btn btn-outline-success btn-sm">Action 3</a>
+          <h5 class="card-title mt-3">Having Any Issues </h5>
+          <p>Need Help / Contact Us.</p>
+          <a href="{{ url_for('helpcontact') }}" class="btn btn-outline-success btn-sm">Action 3</a>
         </div>
       </div>
     </div>

@@ -41,7 +41,7 @@
 <div class="container py-5">
   <h2 class="text-center text-primary mb-5">🗳️ Vote Your Candidates</h2>
   <a href="{{ url_for('results') }}"><button class="btn btn-primary me-3"><i class="fas fa-chart-bar me-2"></i>View Election Results</button></a>
-  <a href="{{ url_for('dashboard') }}"><button class="btn btn-success me-3"><i class="fas fa-chart-bar me-2"></i>Back To Dashboard</button>
+  <a href="{{ url_for('dashboard') }}"><button class="btn btn-success me-3"><i class="fas fa-chart-bar me-2"></i>Back To Dashboard</button></a>
   <form method="POST" action="{{ url_for('vote') }}">
       
   {% with messages = get_flashed_messages(with_categories=true) %}

@@ -24,7 +24,7 @@
   <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="card p-5" style="width: 100%; max-width: 500px;">
       <h3 class="text-center form-title mb-4">Admin Signup</h3>
-      <form action="#" method="POST">
+      <form action="{{ url_for('admin_signup') }}" method="POST">
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
           <div class="mb-4">

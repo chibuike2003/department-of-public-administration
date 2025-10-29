@@ -120,7 +120,6 @@
 
 <div class="container-fluid">
   <div class="row">
-    <!-- Sidebar -->
     <div class="col-md-3 sidebar">
       {% for community in user_communities %}
       <div class="logo">
@@ -142,7 +141,6 @@
       </div>
     </div>
 
-    <!-- Main Content -->
     <div class="col-md-9 main-content">
       
       {% with messages = get_flashed_messages(with_categories=true) %}
@@ -167,7 +165,6 @@
         <img src="../static/csconnect.jpg" class="member-img" alt="Member 3">
       </div>
 
-      <!-- Chat Card -->
       <div class="card chat-card mt-4">
         <div class="chat-header d-flex justify-content-between align-items-center">
           <span id="groupNameTitle">📚 Study Buddies</span>
@@ -178,7 +175,6 @@
         </div>
 
         <div class="chat-body" id="chat-box">
-          <!-- Messages -->
           <div class="chat-row">
             <img src="../static/csconnect.jpg" class="rounded-circle me-2" width="40" height="40" alt="Alice">
             <div class="chat-message-box">
@@ -211,7 +207,6 @@
   </div>
 </div>
 
-<!-- Modal: Create Group -->
 <div class="modal fade" id="createGroupModal" tabindex="-1" aria-labelledby="createGroupModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -256,6 +251,22 @@ function sendGroupMessage(event) {
   chatBox.appendChild(messageRow);
   chatBox.scrollTop = chatBox.scrollHeight;
   messageInput.value = '';
+}
+
+// Function to preview files (e.g., images) before sending
+function previewFiles(event) {
+  const fileInput = event.target;
+  const filePreview = document.getElementById('filePreview');
+  filePreview.innerHTML = ''; // Clear previous previews
+
+  if (fileInput.files.length > 0) {
+    for (const file of fileInput.files) {
+      const fileName = document.createElement('span');
+      fileName.textContent = file.name;
+      fileName.className = 'badge bg-primary me-2';
+      filePreview.appendChild(fileName);
+    }
+  }
 }
 </script>
 
